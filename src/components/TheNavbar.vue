@@ -16,10 +16,11 @@
     </div>
     </el-menu-item>
     <div class="flex-grow" />
-    <el-menu-item route="catalog" 
-    index="1">
-    All assets
-  </el-menu-item>
+    <el-sub-menu index="1">
+      <template #title>Cryptocurrencies</template>
+      <el-menu-item route="categories" index="2-1">Categories</el-menu-item>
+      <el-menu-item route="catalog" index="2-2">All coins</el-menu-item>
+    </el-sub-menu>
   <el-menu-item route="contact" 
   index="2">
   Contact us

@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@types/lodash.debounce": "^4.0.7",
+    "axios": "^1.4.0",
     "element-plus": "^2.3.4",
+    "lodash.debounce": "^4.0.8",
     "sass": "^1.62.1",
     "vue": "^3.2.47",
     "vue-router": "^4.2.0"

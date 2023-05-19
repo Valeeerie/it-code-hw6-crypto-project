@@ -1,11 +1,13 @@
 <template>
     <div>
-        <el-image style="width: 200px; height: 200px" :src="tableData[0].image" />
+        <el-image style="width: 200px; height: 200px" :src="data" />
     </div>
 </template>
 
 <script setup lang="ts">
-import tableData from '../../data/tableData';
+defineProps({
+  data:Object
+})
 </script>
 
 <style lang="scss" scoped>
