@@ -4,7 +4,7 @@
         :column="2"
         :border="true">
         <el-descriptions-item 
-        v-for="(value,key) in item" 
+        v-for="(value,key) in data" 
         :label="key">{{value}}
         </el-descriptions-item>
     </el-descriptions>
@@ -12,7 +12,9 @@
 </template>
 
 <script setup lang="ts">
-import item from '../../data/item'
+defineProps({
+  data:Object,
+})
 </script>
 
 <style lang="scss" scoped>

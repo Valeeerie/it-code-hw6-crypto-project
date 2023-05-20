@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-table :data="tableData"
+    @row-click="itemClicked"
      stripe style="width: 100%">
       <el-table-column prop="name" label="Name"/>
       <el-table-column prop="symbol" label="Symbol"/>
@@ -13,7 +14,7 @@
         <el-button
           size="small"
           type="primary" plain
-          @click="$router.push('/item')"
+          @click="console.log()"
           >See more</el-button
         >
       </template>
@@ -23,7 +24,18 @@
 </template>
 
 <script setup lang="ts">
-import tableData from '../../data/tableData'
+
+let clickedRow = ""
+
+defineProps({
+  tableData:Array,
+})
+const emit = defineEmits(['itemClicked'])
+
+function itemClicked(row){
+  clickedRow = row.id;
+  emit('itemClicked', clickedRow)
+}
 </script>
 
 <style lang="scss" scoped>
