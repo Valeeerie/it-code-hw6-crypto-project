@@ -6,7 +6,7 @@
       class="list"
       :infinite-scroll-disabled="disabled"
     >
-      <li v-for="coin in coins" :key="coin.id" class="list-item"> <el-avatar :size="30" :src="coin.image" />{{ coin.name }}</li>
+      <li v-for="coin in cryptoStore.coins" :key="coin.id" class="list-item"> <el-avatar :size="30" :src="coin.image" />{{ coin.name }}</li>
     </ul>
     <p v-if="loading">Loading...</p>
     <p v-if="noMore">No more</p>
@@ -16,37 +16,22 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import makeRequest from '../utils/makeRequest';
+import { useCryptoStore } from '../store/crypto-store';
 
-let coins= ref([])
-let page=0
+const cryptoStore = useCryptoStore()
 
 const loading = ref(false)
-const noMore = computed(() => coins.value.length >= 249)
+const noMore = computed(() => cryptoStore.coins.length >= 249000)
 const disabled = computed(() => loading.value || noMore.value)
 const load = () => {
   loading.value = true
   setTimeout(() => {
-    makeRequest({                           
-    url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=${page}&sparkline=false&locale=en`, 
-}).then(({data}) => {                             
-  for (let i=0;i<5;i++){
-    coins.value.push(data[i])
-  }
-  page++
-})
+    cryptoStore.fetchCoinsByPage(cryptoStore.page)
     loading.value = false
   }, 2000)
 }
 
-
-makeRequest({                           
-url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=1&sparkline=false&locale=en`, 
-}).then(({data}) => {                             
-  coins.value=data
-  page++
-
-})
+cryptoStore.fetchCoinsByPage(cryptoStore.page)
 
 </script>
 <style lang="scss" scoped>

@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import makeRequest from '../utils/makeRequest';
+import makeRequest from '../services/api/httpClient';
 import { useRoute } from 'vue-router';
 import CustomBackButton from "../UI/button/CustomBackButton.vue"
 

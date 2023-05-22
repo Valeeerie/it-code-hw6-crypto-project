@@ -3,7 +3,7 @@
     <CustomInput 
       v-model="searchText"></CustomInput>
     <CatalogTable 
-    :tableData="apiData"
+    :tableData="cryptoStore.apiData"
     @itemClicked="(item)=> $router.push(`/item/${item}`)"></CatalogTable>
     </div>
 </template>
@@ -12,38 +12,21 @@
 import { ref } from 'vue'
 import CatalogTable from "../components/CatalogPage/CatalogTable.vue"
 import CustomInput from "../UI/form/CustomInput.vue"
-import makeRequest from '../utils/makeRequest'
 import { watch } from 'vue'
 import { debounce } from 'lodash'
+import { useCryptoStore } from '../store/crypto-store'
 
-const apiData = ref([])
 const searchText = ref('')
-let query=""
+let query=ref("")
+const cryptoStore = useCryptoStore()
 
-makeRequest({                           
-  url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, 
-}).then(({data}) => {                                
-  apiData.value = data                                 
-})
-
-
+cryptoStore.fetchAllCoins()
 const saveChanges = debounce(()=>{
-  query = searchText.value
-  console.log(query)
-  makeRequest({                            
-  url: `https://api.coingecko.com/api/v3/search?query=${query}`, 
-}).then(({data}) => {                                
-  apiData.value = data.coins                                 
-}).catch((error)=>{
-  console.log(error.message)
-})
+  query.value = searchText.value
+  cryptoStore.fetchQueriedCoins(query.value)
 },500)
 
-
 watch(searchText, saveChanges)
-
-
-
 </script>
 
 <style lang="scss" scoped>

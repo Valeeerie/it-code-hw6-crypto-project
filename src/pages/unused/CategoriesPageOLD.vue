@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import CategoriesList from "../components/CategoriesPage/CategoriesList.vue"
-import makeRequest from '../utils/makeRequest'
+import makeRequest from '../services/api/httpClient'
 const categories = ref([])
 
 //get categories
