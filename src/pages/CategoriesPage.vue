@@ -2,13 +2,12 @@
     <div class="wrapper">
         <el-select v-model="cat" class="m-2" placeholder="Select category">
     <el-option
-      v-for="item in categories"
+      v-for="item in cryptoStore.categories"
       :key="item.value"
       :label="item.label"
       :value="item.value"
     />
   </el-select>
-  
   <el-row :gutter="10">
     <el-col :span="6"><div class="grid-content ep-bg-purple" />coin</el-col>
     <el-col :span="6"><div class="grid-content ep-bg-purple" />symbol</el-col>
@@ -16,7 +15,7 @@
     <el-col :span="6"><div class="grid-content ep-bg-purple" />coin image</el-col>
   </el-row>
   <ul>
-    <li v-for="coin in coins">
+    <li v-for="coin in cryptoStore.apiData">
   <el-row :gutter="10">
     <el-col :span="6"><div class="grid-content ep-bg-purple" />{{ coin.name }}</el-col>
     <el-col :span="6"><div class="grid-content ep-bg-purple" />{{ coin.symbol }}</el-col>
@@ -25,82 +24,27 @@
   </el-row>
     </li>
   </ul>
-
     </div>
 </template>
 
 <script setup lang="ts">
-import { Ref, computed, ref } from 'vue'
-import makeRequest from '../utils/makeRequest'
+import { ref } from 'vue'
 import { watch } from 'vue'
+import { useCryptoStore } from '../store/crypto-store';
 
-let cat = ref('')
-let categories:Ref<{ value: string, label: string }[]>=ref([{value:"All", label: "All"}])
-// let curr = ref('')
-// let currencies= ref([])
-let coins= ref([])
-let initialValue=-1
+const cryptoStore = useCryptoStore()
+let cat = ref(cryptoStore.cat)
 
-
-//список категорий для селекта
-makeRequest({                           
-  url: `https://api.coingecko.com/api/v3/coins/categories/list`, 
-}).then(({data}) => {                             
-  data.forEach((item)=>{
-    categories.value.push({
-        value:item.category_id,
-        label:item.name,
-    })
-  })   
-  cat.value=categories.value[0].value 
-  console.log(categories.value)               
-})
-
-
-// //список валют для селекта
-// makeRequest({                           
-//   url: `https://api.coingecko.com/api/v3/simple/supported_vs_currencies`, 
-// }).then(({data}) => {                                
-//   currencies.value=data
-//   curr.value=currencies.value[0]
-//   console.log(currencies.value)
-// })
-
-
-//список коинов
-makeRequest({                           
-  url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, 
-}).then(({data}) => {                             
-  coins.value=data
-})
-
+cryptoStore.fetchCoinsCategories()
+cryptoStore.fetchAllCoins()
 
 watch(cat, (newCat) => {
   if (newCat==="All"){
-    makeRequest({                           
-  url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, 
-}).then(({data}) => {                             
-  coins.value=data
-})
+    cryptoStore.fetchAllCoins()
   }else{
-    makeRequest({                           
-  url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${cat.value}`, 
-}).then(({data}) => {                             
-  coins.value=data
-})
+    cryptoStore.fetchCoinsByCategory(cat.value)
   }
 })
-
-// function catChange(newValue){
-//   makeRequest({                           
-//   url: `https://api.coingecko.com/api/v3/coins/list?category=${newValue}`, 
-// }).then(({data}) => {                                
-//   currencies.value=data
-//   curr.value=currencies.value[0]
-//   console.log(currencies.value)
-// })
-// }
-
 </script>
 
 <style lang="scss" scoped>

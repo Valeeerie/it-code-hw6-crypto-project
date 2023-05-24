@@ -2,8 +2,8 @@
     <div class="wrapper">
       <CustomBackButton @click="$router.push('/catalog')"></CustomBackButton>
       <ItemImage 
-      :data="img"></ItemImage>
-      <ItemDescription :data="requestData"></ItemDescription>
+      :data="cryptoStore.img"></ItemImage>
+      <ItemDescription :data="cryptoStore.requestData"></ItemDescription>
     </div>
 </template>
 
@@ -12,25 +12,12 @@ import CustomBackButton from "../UI/button/CustomBackButton.vue"
 import ItemImage from "../components/ItemPage/ItemImage.vue"
 import ItemDescription from "../components/ItemPage/ItemDescription.vue"
 import { useRoute } from "vue-router";
-import makeRequest from "../utils/makeRequest";
-import { ref } from "vue";
-
+import { useCryptoStore } from "../store/crypto-store";
 
 const route=useRoute()
-let requestData = ref({})
-let img = ref({})
+const cryptoStore = useCryptoStore()
 
-
-makeRequest({                           
-  url: `https://api.coingecko.com/api/v3/coins/${route.params.id}`, 
-}).then(({data}) => {                                
-  requestData.value= data    
-  img.value = requestData.value.image.large  
-})
-
-
-
-
+cryptoStore.fetchCoinInfo(String(route.params.id))
 </script>
 
 <style lang="scss" scoped>
