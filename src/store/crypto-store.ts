@@ -8,7 +8,7 @@ export const useCryptoStore = defineStore('crypto-store', {
     coins:[],
     page:1,
     requestData:{},
-    img:{}
+    query:""
   }),
   getters: {
     
@@ -20,23 +20,35 @@ export const useCryptoStore = defineStore('crypto-store', {
         this.apiData = data                                
       }).catch((error)=>{
         console.log(error.message)
-    })
+      })
     },
     fetchQueriedCoins(query:string){
       allCoins.fetchQueriedCoins(query)
       .then(({data}) => {                                
-        this.apiData = data.coins                                 
+        this.coins= data.coins   
+        console.log(this.coins)                                 
       }).catch((error)=>{
         console.log(error.message)
-    })
-  },
+      })
+    },
+    fetchSearchedCoins(){
+      allCoins.fetchSearchedCoins()
+      .then(({data}) => {                                
+        for (let i=0;i<data.coins.length;i++){
+          this.coins.push(data.coins[i].item)
+        }
+        console.log(this.coins)                            
+      }).catch((error)=>{
+        console.log(error.message)
+      })
+    },
     fetchCoinsCategories(){
       allCoins.fetchCoinsCategories()
       .then(({data}) => {                             
         data.forEach((item)=>{
           this.categories.push({
-              value:item.category_id,
-              label:item.name,
+            value:item.category_id,
+            label:item.name,
           })
         })   
         this.cat=this.categories[0].value 
@@ -51,19 +63,17 @@ export const useCryptoStore = defineStore('crypto-store', {
     fetchCoinsByPage(query:number){
       allCoins.fetchCoinsByPage(query)
       .then(({data}) => {                             
-        for (let i=0;i<data.length;i++){
-          this.coins.push(data[i])
-        }
-        this.page++
+        this.coins=data
       })
     },
     fetchCoinInfo(query:string){
       allCoins.fetchCoinInfo(query)
       .then(({data}) => {                                
-        this.requestData= data    
-        this.img = this.requestData.image.large  
+        this.requestData= data     
+        console.log(this.requestData) 
       })
       
-    }
+    },
+
   }
 })

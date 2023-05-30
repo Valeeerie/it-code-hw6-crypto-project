@@ -1,16 +1,14 @@
 <template>
     <div>
-        <input 
-            :value="modelValue" 
+        <el-input :value="modelValue" 
             @input="$emit('update:modelValue', $event.target.value)"
-            placeholder="Please input coin" 
-            />
+            placeholder="Please input" />
     </div>
 </template>
 
 <script setup lang="ts">
 defineProps(['modelValue'])
-defineEmits(['update:modelValue', 'checkForEmptiness'])
+defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
