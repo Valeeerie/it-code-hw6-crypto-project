@@ -19,7 +19,9 @@
     <el-sub-menu index="1">
       <template #title>Cryptocurrencies</template>
       <el-menu-item route="categories" index="2-1">Categories</el-menu-item>
-      <el-menu-item route="catalog" index="2-2">All coins</el-menu-item>
+      <el-menu-item route="coinsbycap" index="2-2">Coins by cap</el-menu-item>
+      <el-menu-item route="allcoins" index="2-3">All coins</el-menu-item>
+      <el-menu-item route="search" index="2-4">Search coins</el-menu-item>
     </el-sub-menu>
   <el-menu-item route="contact" 
   index="2">

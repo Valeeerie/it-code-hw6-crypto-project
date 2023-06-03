@@ -8,19 +8,19 @@
       :value="item.value"
     />
   </el-select>
-  <el-row :gutter="10">
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />coin</el-col>
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />symbol</el-col>
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />current price</el-col>
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />coin image</el-col>
+  <el-row :gutter="10" class="title">
+    <el-col :span="6">Coin</el-col>
+    <el-col :span="6">Symbol</el-col>
+    <el-col :span="6">Price</el-col>
+    <el-col :span="6">Thumb</el-col>
   </el-row>
   <ul>
     <li v-for="coin in cryptoStore.apiData">
   <el-row :gutter="10">
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />{{ coin.name }}</el-col>
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />{{ coin.symbol }}</el-col>
-    <el-col :span="6"><div class="grid-content ep-bg-purple" />{{ coin.current_price }}</el-col>
-    <el-col :span="6"><div class="grid-content ep-bg-purple" /> <el-avatar :size="30" :src="coin.image" /></el-col>
+    <el-col :span="6" class="bold">{{ coin.name }}</el-col>
+    <el-col :span="6" class="uppercase">{{ coin.symbol }}</el-col>
+    <el-col :span="6">${{ coin.current_price }}</el-col>
+    <el-col :span="6"><el-avatar :size="30" :src="coin.image" /></el-col>
   </el-row>
     </li>
   </ul>
@@ -49,23 +49,7 @@ watch(cat, (newCat) => {
 
 <style lang="scss" scoped>
 .wrapper{
-  margin-top: 10px;
-}
-.infinite-list-wrapper {
-  height: 300px;
-  text-align: center;
-}
-.infinite-list-wrapper .list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.infinite-list-wrapper .list-item {
-  height: 50px;
-}
-.infinite-list-wrapper .list-item + .list-item {
-  margin-top: 10px;
+  margin-top: 2vh;
 }
 ul{
   margin-top: 10px;
@@ -73,6 +57,23 @@ ul{
 
 ul li{
   list-style: none;
+}
+
+.uppercase{
+  text-transform: uppercase;
+}
+.title{
+  margin-bottom: 1vh;
+}
+.bold{
+  font-weight: 900;
+}
+
+.title{
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #409eff;
+  margin-top: 2vh;
 }
 
 </style>
