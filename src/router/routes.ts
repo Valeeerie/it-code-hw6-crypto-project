@@ -1,6 +1,7 @@
 import ItemPage from "../pages/ItemPage.vue"
 import MainPage from "../pages/MainPage.vue"
 import CoinsByCapPage from "../pages/CoinsByCapPage.vue"
+import CoinsByCapPagecopy from "../pages/CoinsByCapPagecopy.vue"
 import AllCoinsPage from "../pages/AllCoinsPage.vue"
 import CategoriesPage from "../pages/CategoriesPage.vue"
 import CategoryPage from "../pages/CategoryPage.vue"
@@ -15,6 +16,7 @@ const routes = [
     { path: '/search', component: SearchCoinsPage},
     { path: '/allcoins', component: AllCoinsPage},
     { path: '/item/:id', component: ItemPage},
+    { path: '/copy', component: CoinsByCapPagecopy},
   ]
 
 export default routes

@@ -8,7 +8,11 @@ export const useCryptoStore = defineStore('crypto-store', {
     coins:[],
     page:1,
     requestData:{},
-    query:""
+    query:"",
+    coinsMarketList:[],
+    coinMarketData:[],
+    xaxisData:[],
+    yaxisData:[],
   }),
   getters: {
     
@@ -33,7 +37,8 @@ export const useCryptoStore = defineStore('crypto-store', {
     },
     fetchSearchedCoins(){
       allCoins.fetchSearchedCoins()
-      .then(({data}) => {                                
+      .then(({data}) => {        
+        this.coins=[]                        
         for (let i=0;i<data.coins.length;i++){
           this.coins.push(data.coins[i].item)
         }
@@ -62,8 +67,8 @@ export const useCryptoStore = defineStore('crypto-store', {
     }, 
     fetchCoinsByPage(query:number){
       allCoins.fetchCoinsByPage(query)
-      .then(({data}) => {                             
-        this.coins=data
+      .then(({data}) => {  
+          this.coins=data
       })
     },
     fetchCoinInfo(query:string){
@@ -74,6 +79,29 @@ export const useCryptoStore = defineStore('crypto-store', {
       })
       
     },
+    fetchCoinMarketChart(query:string){
+      allCoins.fetchCoinMarketChart(query)
+      .then(({data}) => {
+        this.yaxisData=[]
+        this.xaxisData=[]                                
+        this.coinMarketData=data.prices
+        for (let i=0;i<this.coinMarketData.length;i++){
+          this.xaxisData.push(new Date(this.coinMarketData[i][0]).toLocaleDateString("en-US"))
+          this.yaxisData.push(this.coinMarketData[i][1].toFixed(2))
+        }
+      })
+      
+    },
+    fetchCoinsByPageForInfinite(query:number,perPage:number){
+      allCoins.fetchCoinsByPageForInfinite(query,perPage)
+      .then(({data}) => {  
+          for (let i=0;i<data.length;i++){
+            this.coins.push(data[i].title)
+          }
+          console.log(this.coins)
+      })
+    },
+
 
   }
 })

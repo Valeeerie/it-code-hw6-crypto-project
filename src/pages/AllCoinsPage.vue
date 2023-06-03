@@ -4,7 +4,7 @@
     <AllCoinsTable
     :tableData="cryptoStore.coins"
     @itemClicked="(item)=> $router.push(`/item/${item}`)"></AllCoinsTable>
-    <!-- <el-pagination background layout="prev, pager, next" :total="250" v-model:current-page="page"/> -->
+    <el-pagination background layout="prev, pager, next" :total="250" v-model:current-page="page"/>
   </div>
 </template>
 

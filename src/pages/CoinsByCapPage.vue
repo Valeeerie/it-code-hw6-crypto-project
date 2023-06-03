@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h2>Cryptocurrency Prices by Market Cap</h2>
+    <h2 class="title">Cryptocurrency Prices by Market Cap</h2>
     <CoinsByCapTable
     :tableData="cryptoStore.coins"
     @itemClicked="(item)=> $router.push(`/item/${item}`)"></CoinsByCapTable>
@@ -9,9 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { watch } from 'vue'
 import CoinsByCapTable from "../components/CoinsByCapPage/CoinsByCapTable.vue"
-
 
 import { storeToRefs } from 'pinia'
 import { useCryptoStore } from '../store/crypto-store'
@@ -28,13 +27,15 @@ watch(page, (newPage)=>{
   cryptoStore.fetchCoinsByPage(newPage)
 })
 
-
-
-
 </script>
 
 <style lang="scss" scoped>
 .wrapper{
-  margin-top: 10px;
+  margin-top: 1vh;
+
+  .title{
+    margin-bottom: 2vh;
+  }
+
 }
 </style>
